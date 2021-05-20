@@ -1,0 +1,146 @@
+[data-theme="monokai"] {
+  --darker: #272822;
+  --dark: #373831;
+  --dark-grey: #49483E;
+  --grey: #75715e;
+  --light-grey: #d0d0d0;
+  --white: #f8f8f2;
+  --green-r: 166;
+  --green-g: 226;
+  --green-b: 46;
+  --raw-green: var(--green-r), var(--green-g), var(--green-b);
+  --green: rgb(var(--green-r), var(--green-g), var(--green-b));
+  --blue-r: 158;
+  --blue-g: 239;
+  --blue-b: 255;
+  --raw-blue: var(--blue-r), var(--blue-g), var(--blue-b);
+  --blue: rgb(var(--blue-r), var(--blue-g), var(--blue-b));
+  --yellow: #e6db74;
+  --orange: #fd971f;
+  --purple: #ae81ff;
+  --red-r: 249;
+  --red-g: 38;
+  --red-b: 114;
+  --raw-red: var(--red-r), var(--red-g), var(--red-b);
+  --red: rgb(var(--red-r), var(--red-g), var(--red-b));
+  --yellow25: #e6db7440;
+}
+
+*::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--grey) var(--dark-grey);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--grey);
+  border-radius: 6px;
+  border: 3px solid var(--dark-grey);
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0.0);
+}
+
+body {
+  margin: 0px;
+  background: var(--dark-grey);
+  color: var(--yellow);
+  height: 100vh;
+  /* overflow: hidden; */
+}
+
+template {
+  display: none;
+}
+
+.table {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+}
+
+.card {
+  --sign-size: 48px;
+  width: calc(var(--sign-size) * 2);
+  height: calc(var(--sign-size) * 3.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-style: solid;
+  border-width: 0.25rem;
+  border-color: var(--yellow25);
+  justify-content: space-evenly;
+}
+
+.sign {
+  display: grid;
+}
+
+.sign .border, .sign .smaller {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.sign.red {
+  --raw-color: var(--raw-red);
+}
+
+.sign.green {
+  --raw-color: var(--raw-green);
+}
+
+.sign.blue {
+  --raw-color: var(--raw-blue);
+}
+
+.sign.diamond>.shape {
+  clip-path: polygon(50% 20%, 100% 50%, 50% 80%, 0% 50%);
+}
+
+.sign.squiggle>.shape {
+  clip-path: polygon(86% 22%, 79% 28%, 70% 34%, 60% 35%, 46% 31%, 36% 28%, 27% 24%, 17% 21%, 13% 26%, 9% 36%, 8% 49%, 12% 68%, 18% 67%, 22% 60%, 23% 56%, 32% 54%, 39% 58%, 48% 64%, 58% 68%, 67% 69%, 77% 69%, 88% 65%, 91% 58%, 94% 45%, 93% 34%, 94% 23%, 92% 20%);
+}
+
+.sign.oval>.shape {
+  clip-path: ellipse(40% 20% at 50% 50%);
+}
+
+.sign.empty {
+  --alpha: 0;
+}
+
+.sign.half {
+  --alpha: 0.5;
+}
+
+.sign.full {
+  --alpha: 1;
+}
+
+.sign .smaller {
+  --scale: 0.75;
+  --size: calc(var(--scale) * var(--sign-size));
+  width: var(--size);
+  height: var(--size);
+  --scale-padding: calc((var(--sign-size) - var(--size)) / 2);
+  margin-top: var(--scale-padding);
+  margin-left: var(--scale-padding);
+}
+
+.sign .inside {
+  background-color: rgba(var(--raw-color), var(--alpha));
+}
+
+.sign .hole {
+  background-color: var(--dark-grey);
+}
+
+.sign .border {
+  width: var(--sign-size);
+  height: var(--sign-size);
+  background-color: rgba(var(--raw-color), 1);
+}

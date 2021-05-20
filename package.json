@@ -1,0 +1,15 @@
+{
+  "name": "deck",
+  "version": "1.0.0",
+  "description": "Homework",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx http-serve -p8087 -c-1 -o http://localhost:8087/index.html ./src",
+  },
+  "keywords": [],
+  "author": "Jamesgt",
+  "license": "MIT",
+  "devDependencies": {
+    "http-serve": "^1.0.1"
+  }
+}

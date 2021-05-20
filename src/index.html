@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html data-theme="monokai">
+
+<head>
+  <meta charset='utf-8'>
+  <title>Set game</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+  <script src='deck.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.8.2/alpine.js" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <div class="table" x-data="{ deck: new Deck() }">
+    <template x-for="card in deck.cards">
+      <div class="card">
+        <template x-for="index in card.number">
+          <div class="sign" :class="[card.shape, card.fill, card.color]">
+            <div class="shape border"></div>
+            <div class="shape smaller hole"></div>
+            <div class="shape smaller inside"></div>
+          </div>
+        </template>
+      </div>
+    </template>
+  </div>
+</body>
+
+</html>
