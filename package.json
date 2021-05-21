@@ -4,12 +4,13 @@
   "description": "Homework",
   "main": "index.js",
   "scripts": {
-    "start": "npx http-serve -p8087 -c-1 -o http://localhost:8087/index.html ./src",
+    "start": "npx http-serve -p8087 -c-1 -o http://localhost:8087/index.html ./src"
   },
   "keywords": [],
   "author": "Jamesgt",
   "license": "MIT",
   "devDependencies": {
+    "@types/lodash": "^4.14.170",
     "http-serve": "^1.0.1"
   }
 }

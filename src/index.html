@@ -6,23 +6,53 @@
   <title>Set game</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src='deck.js'></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.8.2/alpine.js" referrerpolicy="no-referrer"></script>
 </head>
 
-<body>
-  <div class="table" x-data="{ deck: new Deck() }">
-    <template x-for="card in deck.cards">
-      <div class="card">
-        <template x-for="index in card.number">
-          <div class="sign" :class="[card.shape, card.fill, card.color]">
-            <div class="shape border"></div>
-            <div class="shape smaller hole"></div>
-            <div class="shape smaller inside"></div>
-          </div>
-        </template>
-      </div>
-    </template>
+<body x-data="{ deck, players: ['Player 1', 'Player 2', 'Player 3', 'Player 4'] }">
+  <div class="actions">
+    <button @click="deck.draw()">Draw</button>
+  </div>
+  <div class="game">
+    <div class="header">
+      <h1>Welcome to the <a href="https://en.wikipedia.org/wiki/Set_(card_game)" target="_blank">Set card game</a></h1>
+    </div>
+    <div class="rules">
+      <h1>How to play</h1>
+      <p>There are 81 unique cards.</p>
+      <p>All card has 4 properties: shape, pattern, fill, number.</p>
+      <p>All properties have 3 possible values.</p>
+      <p>A set is only valid if all properties have the same value or none of the values match on the 3 card.</p>
+      <hr />
+      <p>If a player thinks there is a Set, press <code>SPACE</code>.</p>
+      <p>A timer will start to help ensure that the player is pointing quickly the 3 cards.</p>
+      <p>Other players have to validate if that is really a Set or not.</p>
+      <p>If it is, the player scores a point. The cards in the Set are dismissed.</p>
+      <p>If not, then the player loses a point. You cannot go under 0.</p>
+      <p>If all players agree that there is no Set on the table, you can draw 3 more cards.</p>
+    </div>
+    <div class="players">
+      <template x-for="(player, index) in 4">
+        <div class="player" x-init="players.push()">
+          <input class="name" x-model="players[index]"></input>
+        </div>
+      </template>
+    </div>
+    <div class="table">
+      <template x-for="card in deck.playing">
+        <div class="card">
+          <template x-for="index in card.number">
+            <div class="sign" :class="[card.shape, card.fill, card.color]">
+              <div class="shape border"></div>
+              <div class="shape smaller hole"></div>
+              <div class="shape smaller inside"></div>
+            </div>
+          </template>
+        </div>
+      </template>
+    </div>
   </div>
 </body>
 
