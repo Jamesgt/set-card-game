@@ -47,10 +47,10 @@
 }
 
 body {
-  margin: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   background: var(--dark-grey);
   color: var(--yellow);
-  height: 100vh;
   /* overflow: hidden; */
 }
 
@@ -62,18 +62,51 @@ a {
   color: var(--green);
 }
 
+code {
+  background-color: var(--darker);
+  color: var(--purple);
+  padding: 2px;
+}
+
+input, button {
+  background-color: var(--light-grey);
+  color: var(--darker);
+  border: 3px solid var(--darker);
+  border-radius: 8px;
+  height: 1.75rem;
+  font-size: 1.5rem;
+  text-align: center;
+  font-family: monospace;
+}
+
+button {
+  height: 2.25rem;
+}
+
 .game {
+  height: 100%;
   display: grid;
   grid-template-areas:
     'header  header header'
     'players table  rules'
   ;
   grid-template-columns: min-content auto 400px;
+  grid-template-rows: min-content auto;
 }
 
 .header {
   grid-area: header;
   text-align: center;
+  font-family: monospace;
+}
+
+.rules .title {
+  color: orange;
+}
+
+.rules .details {
+  font-family: monospace;
+  font-size: 1.25rem;
 }
 
 .table {
@@ -90,10 +123,16 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  height: 100%;
 }
 
 .players .player {
-  border: 1px solid var(--orange);
+  font-family: monospace;
+  font-size: 1.25rem;
+}
+
+.player .score {
+  text-align: center;
 }
 
 .card {
@@ -108,6 +147,31 @@ a {
   border-color: var(--grey);
   justify-content: space-evenly;
   background-color: var(--dark);
+}
+
+@keyframes draw {
+  from { transform: rotate(10deg) rotateY(90deg); }
+  to { transform: rotate(0deg) rotateY(0deg); }
+}
+
+.card.new {
+  animation: draw 1s;
+}
+
+.pick .card {
+  border-color: var(--blue);
+}
+
+.pick .card.selected {
+  border-color: var(--orange);
+}
+
+.valid .card.selected {
+  border-color: var(--green);
+}
+
+.invalid .card.selected {
+  border-color: var(--red);
 }
 
 .sign {

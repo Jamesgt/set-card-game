@@ -7,42 +7,46 @@
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src='deck.js'></script>
+  <script src='game.js'></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.8.2/alpine.js" referrerpolicy="no-referrer"></script>
 </head>
 
-<body x-data="{ deck, players: ['Player 1', 'Player 2', 'Player 3', 'Player 4'] }">
-  <div class="actions">
-    <button @click="deck.draw()">Draw</button>
-  </div>
+<body x-data="getGame()" @keydown.space="action()" @keydown.enter="draw()">
+  <div class="anim"></div>
   <div class="game">
     <div class="header">
       <h1>Welcome to the <a href="https://en.wikipedia.org/wiki/Set_(card_game)" target="_blank">Set card game</a></h1>
     </div>
     <div class="rules">
-      <h1>How to play</h1>
-      <p>There are 81 unique cards.</p>
-      <p>All card has 4 properties: shape, pattern, fill, number.</p>
-      <p>All properties have 3 possible values.</p>
-      <p>A set is only valid if all properties have the same value or none of the values match on the 3 card.</p>
-      <hr />
-      <p>If a player thinks there is a Set, press <code>SPACE</code>.</p>
-      <p>A timer will start to help ensure that the player is pointing quickly the 3 cards.</p>
-      <p>Other players have to validate if that is really a Set or not.</p>
-      <p>If it is, the player scores a point. The cards in the Set are dismissed.</p>
-      <p>If not, then the player loses a point. You cannot go under 0.</p>
-      <p>If all players agree that there is no Set on the table, you can draw 3 more cards.</p>
+      <h1 class="title">How to play</h1>
+      <div class="details">
+        <p>There are 81 unique cards.</p>
+        <p>All card has 4 properties: shape, pattern, fill, number.</p>
+        <p>All properties have 3 possible values.</p>
+        <p>A set is only valid if all properties have the same value or none of the values match on the 3 card.</p>
+        <hr />
+        <p>If a player thinks there is a Set, press <code>SPACE</code>.</p>
+        <p>Selecting the 3 card should be <em>very quick</em>, you don't have time to think after you said Set!</p>
+        <p>If it is a valid set, score is increased. The cards in the Set are dismissed.</p>
+        <p>If not, then score is decreased and the player misses a turn, but you cannot go under 0 points.</p>
+        <p>You can select the player on the left.</p>
+        <p>If all players agree that there is no Set on the table, you can draw 3 more cards by pressing <code>ENTER</code>.</p>
+        <p>Press <code>SPACE</code> to start the game or <code>F5</code> to start a new one.</p>
+      </div>
     </div>
     <div class="players">
       <template x-for="(player, index) in 4">
-        <div class="player" x-init="players.push()">
-          <input class="name" x-model="players[index]"></input>
+        <div class="player">
+          <input class="name" x-model="players[index].name" @keydown.space="$event.stopPropagation()" @input="setPalyerName(index, $event.target.value)"></input>
+          <div class="score" x-text="`Score ${players[index].score}`" x-show="state !== 'init'"></div>
+          <button class="positive" x-show="state === 'valid'" @click="score(index, 1)">+1</button>
+          <button class="negative" x-show="state === 'invalid'" @click="score(index, -1)">-1</button>
         </div>
       </template>
     </div>
-    <div class="table">
-      <template x-for="card in deck.playing">
-        <div class="card">
+    <div class="table" :class="{ pick: state === 'pick', valid: state === 'valid', invalid: state === 'invalid' }">
+      <template x-for="card in cardsOnTable" :key="card">
+        <div class="card" :class="{ selected: card.selected, new: card.new }" @click="selectCard(card)" @animationend="card.new = false">
           <template x-for="index in card.number">
             <div class="sign" :class="[card.shape, card.fill, card.color]">
               <div class="shape border"></div>
